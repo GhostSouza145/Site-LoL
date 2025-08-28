@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darius - A Mão de Noxus</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #9d0b0b;
+            --secondary-color: #3a0000;
+            --accent-color: #ffcc00;
+            --text-color: #f5f5f5;
+            --dark-bg: #1a1a1a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://images.unsplash.com/photo-1519669556878-63bdad8a1a49?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(58, 0, 0, 0.8));
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 50%, rgba(157, 11, 11, 0.2), transparent 70%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-text h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            line-height: 1.1;
+        }
+        
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(157, 11, 11, 0.3);
+        }
+        
+        .btn:hover {
+            background: transparent;
+            color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(157, 11, 11, 0.5);
+        }
+        
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .darius-image {
+            width: 100%;
+            max-width: 550px;
+            filter: drop-shadow(0 0 20px rgba(157, 11, 11, 0.7));
+            animation: float 6s ease-in-out infinite;
+            border-radius: 10px;
+            transform: perspective(800px) rotateY(10deg);
+            transition: transform 0.5s;
+        }
+        
+        .darius-image:hover {
+            transform: perspective(800px) rotateY(0);
+        }
+        
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: var(--primary-color);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-text p {
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            text-align: justify;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.5s;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .about-image img:hover {
+            transform: scale(1.03);
+        }
+        
+        /* History Section */
+        .history {
+            background: linear-gradient(to bottom, rgba(58, 0, 0, 0.3), rgba(26, 26, 26, 0.7));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .history::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 25px;
+            background: linear-gradient(to bottom right, rgba(58, 0, 0, 0.8), rgba(26, 26, 26, 0.9));
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        .timeline-content h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--accent-color);
+            border: 4px solid var(--primary-color);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -13px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -13px;
+        }
+        
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .skill-card {
+            background: linear-gradient(to bottom, rgba(58, 0, 0, 0.8), rgba(26, 26, 26, 0.9));
+            border-radius: 10px;
+            padding: 30px;
+            width: 280px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(157, 11, 11, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .skill-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(157, 11, 11, 0.3);
+        }
+        
+        .skill-icon {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(157, 11, 11, 0.5);
+        }
+        
+        .skill-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .skill-card p {
+            font-size: 1.1rem;
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            background: linear-gradient(to bottom, rgba(26, 26, 26, 0.9), rgba(58, 0, 0, 0.3));
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 280px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s, transform 0.5s;
+            border: 2px solid rgba(157, 11, 11, 0.3);
+        }
+        
+        .gallery-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            padding: 25px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            transform: translateY(20px);
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-overlay h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to bottom, var(--secondary-color), #000);
+            padding: 60px 0 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(157, 11, 11, 0.2);
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            border-radius: 50%;
+            border: 1px solid rgba(157, 11, 11, 0.5);
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary-color);
+            color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(157, 11, 11, 0.4);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0% { transform: perspective(800px) rotateY(10deg) translateY(0px); }
+            50% { transform: perspective(800px) rotateY(10deg) translateY(-20px); }
+            100% { transform: perspective(800px) rotateY(10deg) translateY(0px); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 18px;
+            }
+            
+            .timeline-item:nth-child(odd)::after {
+                right: auto;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                flex-direction: column;
+                background: rgba(58, 0, 0, 0.95);
+                width: 100%;
+                height: 100vh;
+                top: 70px;
+                left: -100%;
+                text-align: center;
+                transition: all 0.5s;
+                padding-top: 50px;
+                backdrop-filter: blur(10px);
+            }
+            
+            nav ul.show {
+                left: 0;
+            }
+            
+            nav ul li {
+                margin: 30px 0;
+            }
+            
+            .hero-text, .hero-image {
+                flex: 100%;
+                text-align: center;
+                padding: 0;
+            }
+            
+            .hero-text {
+                margin-bottom: 50px;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text, .about-image {
+                width: 100%;
+            }
+            
+            .about-image {
+                margin-top: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .skill-card {
+                width: 100%;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .social-icons a {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-hat-cowboy-side logo-icon"></i>
+                Darius<span>Noxus</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#history">História</a></li>
+                    <li><a href="#skills">Habilidades</a></li>
+                    <li><a href="#gallery">Galeria</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Darius, A Mão de Noxus</h1>
+                <p>Líder da legião Trifarian, comandante implacável e força dominante de Noxus. Darius é um guerreiro de força e determinação incomparáveis que alcançou seu status através de pura força bruta e táticas implacáveis.</p>
+                <a href="#about" class="btn">Explorar a História</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_0.jpg" alt="Darius - League of Legends" class="darius-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Sobre Darius</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Darius e seu irmão Draven cresceram como órfãos na cidade portuária de Basilich. Darius lutou para proteger seu irmão mais novo de brutos e ladrões, developing uma força física impressionante e uma determinação feroz.</p>
+                    <p>Quando ainda era jovem, Darius se alistou no exército de Noxus, onde encontrou uma família entre as fileiras dos soldados. Ele subiu rapidamente nas fileiras, mostrando disciplina e eficiência incomparáveis no campo de batalha.</p>
+                    <p>Darius acredita fervorosamente no ideal noxiano de que apenas os fortes devem governar. Sua fama cresceu com cada batalha vencida, até que ele se tornou conhecido como "A Mão de Noxus", o principal comandante militar da nação.</p>
+                    <p>Seu machado gigantesco, que poucos conseguem levantar, é temido em todos os cantos de Runeterra. Aqueles que ousam desafiar o comandante rapidamente aprendem que ele brande a arma com uma velocidade e força letais.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_1.jpg" alt="Darius Lore">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="history" class="history">
+        <div class="container">
+            <h2 class="section-title">Linha do Tempo</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Infância em Basilich</h3>
+                        <p>Darius e Draven crescem como órfãos nas ruas violentas de Basilich, onde Darius aprende a lutar para proteger seu irmão mais novo.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Alistamento no Exército</h3>
+                        <p>Aos 18 anos, Darius se alista no exército noxiano, encontrando pela primeira vez um senso de propósito e família.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Batalha de Zaggeul</h3>
+                        <p>Darius lidera uma tropa em desvantagem numérica para a vitória na Batalha de Zaggeul, ganhando reconhecimento dos superiores.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Comando da Legião Trifarian</h3>
+                        <p>Após demonstrar repetidas vezes sua força e liderança, Darius é nomeado comandante da prestigiosa Legião Trifarian.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>A Mão de Noxus</h3>
+                        <p>Darius recebe o título de "A Mão de Noxus", tornando-se o principal comandante militar da nação, respondendo apenas ao próprio Trifarix.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Habilidades e Características</h2>
+            <div class="skills-container">
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-fist-raised"></i>
+                    </div>
+                    <h3>Força Imparável</h3>
+                    <p>Darius possui força física incomparável, capaz de brandir seu enorme machado com uma única mão.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Liderança Inata</h3>
+                    <p>Comanda lealdade absoluta de suas tropas através de exemplo pessoal e força de vontade.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Estratégia Militar</h3>
+                    <p>Um tático brilhante que sempre encontra o ponto fraco do inimigo para desferir o golpe decisivo.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Hemorragia</h3>
+                    <p>Seus golpes causam sangramento profuso, enfraquecendo gradualmente seus oponentes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Galeria</h2>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_2.jpg" alt="Darius - Skin Lorde Darius">
+                    <div class="gallery-overlay">
+                        <h3>Lorde Darius</h3>
+                        <p>Skin de prestígio</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_5.jpg" alt="Darius - Skin Dunkmaster">
+                    <div class="gallery-overlay">
+                        <h3>Dunkmaster Darius</h3>
+                        <p>Skin temática de basquete</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_6.jpg" alt="Darius - Skin Academia de Batalha">
+                    <div class="gallery-overlay">
+                        <h3>Academia de Batalha Darius</h3>
+                        <p>Skin em estilo anime</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_7.jpg" alt="Darius - Skin Cão de Caça">
+                    <div class="gallery-overlay">
+                        <h3>Darius Cão de Caça</h3>
+                        <p>Skin de alta tecnologia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">Darius - A Mão de Noxus</div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Início</a>
+                <a href="#about">Sobre</a>
+                <a href="#history">História</a>
+                <a href="#skills">Habilidades</a>
+                <a href="#gallery">Galeria</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 League of Legends Lore. Site não oficial criado para fãs.</p>
+                <p>League of Legends é uma marca registrada da Riot Games, Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu toggle for mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('show');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    document.querySelector('nav ul').classList.remove('show');
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const skillCards = document.querySelectorAll('.skill-card');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            timelineItems.forEach(item => {
+                const position = item.getBoundingClientRect();
+                
+                // If element is in viewport
+                if(position.top < window.innerHeight - 100) {
+                    item.classList.add('visible');
+                }
+            });
+            
+            skillCards.forEach(card => {
+                const position = card.getBoundingClientRect();
+                
+                if(position.top < window.innerHeight - 100) {
+                    card.classList.add('visible');
+                }
+            });
+            
+            galleryItems.forEach(item => {
+                const position = item.getBoundingClientRect();
+                
+                if(position.top < window.innerHeight - 100) {
+                    item.classList.add('visible');
+                }
+            });
+        }
+        
+        // Listen for scroll events
+        window.addEventListener('scroll', animateOnScroll);
+        // Initial check
+        window.addEventListener('load', animateOnScroll);
+        
+        // Parallax effect
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            const dariusImage = document.querySelector('.darius-image');
+            
+            heroContent.style.transform = `translateY(${scrollPosition * 0.4}px)`;
+            dariusImage.style.transform = `perspective(800px) rotateY(10deg) translateY(${scrollPosition * 0.1}px)`;
+        });
+    </script>
+</body>
+</html>
